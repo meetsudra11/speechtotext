@@ -16,6 +16,7 @@ load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 
+
 # 2. Setup Components
 embeddings = download_embeddings()
 index_name = "medical-chatbot"
