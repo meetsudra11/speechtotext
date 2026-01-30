@@ -45,3 +45,6 @@ def download_embeddings():
         model_name=model_name,
     )
     return embeddings
+
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)

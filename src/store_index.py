@@ -13,10 +13,10 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY
 os.environ["GOOGLE_API_KEY"] = GEMINI_API_KEY
 
-extracted_data=load_pdfs_from_directory(data='data/')
-filter_data = filter_to_minimal_docs(extracted_data)
-text_chunks = text_split(filter_data)
-embeddings = download_embeddings()
+extracted_data=load_pdfs_from_directory(data='data/') # loading the data
+filter_data = filter_to_minimal_docs(extracted_data) # filtering data
+text_chunks = text_split(filter_data) # chunking
+embeddings = download_embeddings() #  download embedding model
 pinecone_api_key = PINECONE_API_KEY
 pc = Pinecone(api_key = pinecone_api_key)
 
