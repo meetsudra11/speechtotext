@@ -56,14 +56,16 @@ jobs:
 
       - name: Pull and Run Docker Image
         run: |
-         # 1. Purane container ko stop aur remove karna zaroori hai
-         docker ps -q --filter "name=medibot" | xargs -r docker stop
+         # 1. Login toh pehle step mein ho gaya, ab latest image pull karo
+         docker pull ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPO }}:latest
+
+         # 2. Purane container ko stop aur remove karo (agar exist karta hai)
+         docker stop medibot || true && docker rm medibot || true
          docker container prune -f
          
-         # 2. Latest image pull karke run karna
-         # Note: GEMINI_API_KEY use kiya hai because your app needs it
+         # 3. Naya container run karo
          docker run -d --name medibot \
           -e PINECONE_API_KEY="${{ secrets.PINECONE_API_KEY }}" \
           -e GEMINI_API_KEY="${{ secrets.GEMINI_API_KEY }}" \
           -p 8080:8080 \
-          "${{ steps.login-ecr.outputs.registry }}"/"${{ secrets.ECR_REPO }}":latest
+          ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPO }}:latest
